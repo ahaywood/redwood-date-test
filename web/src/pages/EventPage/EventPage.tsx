@@ -6,10 +6,10 @@ import {
   Submit,
   TextField,
 } from '@redwoodjs/forms'
-import { Toaster, toast } from '@redwoodjs/web/dist/toast'
 import { MetaTags, useMutation } from '@redwoodjs/web'
-import EventListCell from 'src/components/EventListCell'
+import { Toaster, toast } from '@redwoodjs/web/dist/toast'
 
+import EventListCell from 'src/components/EventListCell'
 import { QUERY as EVENTS_QUERY } from 'src/components/EventListCell/EventListCell'
 
 const CREATE_EVENT_MUTATION = gql`
@@ -28,7 +28,7 @@ const CREATE_EVENT_MUTATION = gql`
 `
 
 const EventPage = () => {
-  const [createEvent, { loading, error }] = useMutation(CREATE_EVENT_MUTATION, {
+  const [createEvent, { loading }] = useMutation(CREATE_EVENT_MUTATION, {
     onCompleted: () => {
       toast.success('Event created successfully')
     },
@@ -60,15 +60,15 @@ const EventPage = () => {
           </p>
 
           <p>
-            <Label name="date" />
+            <Label name="date time" />
             <br />
-            <DatetimeLocalField name="date" />
+            <DatetimeLocalField name="dateTime" />
           </p>
 
           <p>
-            <Label name="date time" />
+            <Label name="date" />
             <br />
-            <DateField name="dateTime" />
+            <DateField name="date" />
           </p>
 
           <p>
