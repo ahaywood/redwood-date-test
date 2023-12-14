@@ -1,6 +1,6 @@
 # Redwood Date Test
 
-This project isn't fancy, but it does a good job of stripping away all the noise and showing you how to use the `Date` and `DateField` components.
+This project isn't fancy, but it does a good job of stripping away all the noise and showing you how to use the Redwood `Date` and `DateField` components.
 
 ![](/images/event-page-screenshot.png)
 
@@ -27,19 +27,26 @@ yarn redwood dev
 
 Your browser should automatically open to [http://localhost:8910](http://localhost:8910) where you'll see the Welcome Page, which links out to many great resources.
 
+It does need a database to work, but it's currently utilizing SQLite, which is already installed in the project. You can find the database in `api/db/dev.db`. There's no additional work needed to setup.
+
 ## Summary
 
 This project only has one page: `web/src/pages/EventPage/EventPage.tsx`.
 
 Here, you'll find a form at the top, that takes a `name`, `dateTime`, and a `date`.
 
+![](/images/form.png)
+
 When you submit the form, the information is immediately displayed below the form. The `web/src/components/EventListCell/EventListCell.tsx` component is responsible for querying the database and displaying this information.
+
+![](/images/json.png)
 
 When you submit a date or a dateTime, the value can be handed off to the database, without any additional work.
 
 However, when you get the date from the database, you can't simply feed it back into the `date` input. That's because the browser is returning a date object and the HTML form input needs a date formatted as a string: `YYYY-MM-DD`.
 
-You can reformat it with a function like this:
+You can reformat it with a helper function like this:
+
 ```
 const formatDateForInput = (date) => {
   const displayDate = new Date(date)
@@ -48,9 +55,18 @@ const formatDateForInput = (date) => {
 }
 ```
 
+The result looks like this:
+
+```
+<DateField
+  defaultValue={formatDateForInput(event.date)}
+  name={`update-${index}`}
+/>
+```
+
 Same with the `datetime-local` input. The HTML datetime-local input expects the date and time to be in the format YYYY-MM-DDTHH:MM, where YYYY is the four-digit year, MM is the two-digit month, DD is the two-digit day, T is a separator, HH is the two-digit hour (24-hour format), and MM is the two-digit minute.
 
-You can reformat it with a function like this:
+You can reformat it with a helper function like this:
 
 ```
 const formatDateTimeForInput = (date: string) => {
@@ -63,6 +79,15 @@ const formatDateTimeForInput = (date: string) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`
 }
+```
+
+The result looks like this:
+
+```
+<DatetimeLocalField
+  name={`update-dateTime-${index}`}
+  defaultValue={formatDateTimeForInput(event.dateTime)}
+/>
 ```
 
 Here's a screenshot of what the data looks like within the database:
