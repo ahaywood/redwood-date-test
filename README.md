@@ -45,6 +45,8 @@ When you submit a date or a dateTime, the value can be handed off to the databas
 
 However, when you get the date from the database, you can't simply feed it back into the `date` input. That's because the browser is returning a date object and the HTML form input needs a date formatted as a string: `YYYY-MM-DD`.
 
+This is not a bug with [RedwoodJS](https://redwoodjs.com) or [React Hook Forms](https://react-hook-form.com/) (RedwoodJS forms are powered by React Hook Forms). This is a limitation of the HTML date input.
+
 You can reformat it with a helper function like this:
 
 ```
